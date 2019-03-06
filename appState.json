@@ -1,0 +1,85 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "c9dcfc28-9c4e-4de9-bd03-e80f6c3277bb": {
+        "id": "c9dcfc28-9c4e-4de9-bd03-e80f6c3277bb",
+        "parent": null,
+        "name": "simpleIDE-demo",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f"
+        ],
+        "isRemovable": false,
+        "filePath": "simpleIDE-demo"
+      },
+      "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f": {
+        "id": "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f",
+        "parent": "c9dcfc28-9c4e-4de9-bd03-e80f6c3277bb",
+        "name": "lambda.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "simpleIDE-demo/lambda.js",
+        "code": "\nlet Swagger = require('swagger-client');\n\nexports.handler = function (event, context, callback) {\n\n    Swagger.http({\n        url: 'https://services.apixplatform.com/api-sandbox/application/token',\n        method: 'post',\n        query: {},\n        headers: { \"Accept\": \"*/*\", \"Content-Type\": \"application/json\" },\n        body: JSON.stringify({\n            \"userName\": \"Mmbank1@apixdemo.com\",\n            \"password\": \"Passw0rd@\"\n        })\n    }).then((response) => {\n        var access_token = \"bearer \" + response.body.access_token;\n        // var firstname = event.firstName;\n        // var lastname = event.lastName;\n        // console.log(\"Hello \" + ' ' + firstname + ' ' + lastname + '!!');\n        Swagger.http({\n            url: `https://api.apixplatform.com/sbaccount/1.0/account/accounts/accounts`,\n            method: 'get',\n            query: { \"page\": \"10\", \"size\": \"10\" },\n            headers: { \"X-Authorization\": access_token, \"Accept\": \"*/*\" }\n        }).then((response) => {\n            callback(null, response.body);\n\n        }).catch((err) => {\n            // error handling goes here\n            console.log(err)\n        });\n        callback(null, access_token);\n    }).catch((err) => {\n        console.log(err);\n        callback(\"Execution failed\");\n    });\n\n}",
+        "triggers": [],
+        "config": {
+          "runtime": "nodejs8.10",
+          "timeout": 60,
+          "memory": 128
+        },
+        "testCases": {
+          "0b417652-50b5-4e29-8954-55854717b526": {
+            "id": "0b417652-50b5-4e29-8954-55854717b526",
+            "name": "simpleEvent",
+            "functionId": "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f",
+            "event": "{\n    \"firstName\": \"Tarun\",\n    \"lastName\": \"Jain\"\n}"
+          }
+        }
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "c9dcfc28-9c4e-4de9-bd03-e80f6c3277bb",
+    "openFiles": [
+      "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f"
+    ],
+    "currentFileId": "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f",
+    "resources": {},
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "swagger-client": {
+          "name": "swagger-client",
+          "version": "3.8.21"
+        }
+      }
+    },
+    "lambdaId": "5bc52c66-18e0-4a8c-a34d-bbcaa6ebb05f"
+  },
+  "PROJECT_META": {
+    "projectName": "simpleIDE-demo",
+    "projectDescription": "sample demo project",
+    "projectVersion": "1.0.0",
+    "projectRegion": "ap-southeast-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1551914245792
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "simpleIDE-demo",
+      "url": "https://github.com/apixDemo/simpleIDE-demo"
+    }
+  }
+}
